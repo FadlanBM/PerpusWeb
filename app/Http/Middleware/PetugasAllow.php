@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class Guest
+class PetugasAllow
 {
     /**
      * Handle an incoming request.
@@ -15,9 +15,9 @@ class Guest
      */
     public function handle(Request $request, Closure $next): Response
     {
-           if (auth()->user()->role=="admin"){
-            return redirect()->route('dashboardadmin');
-            };
-            return redirect()->route('dashboardpetugas');
+        if (auth()->user()->role!="petugas"){
+            return back();
+        }
+        return $next($request);
     }
 }

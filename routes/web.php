@@ -22,6 +22,5 @@ Route::middleware(['guest'])->group(function(){
     Route::get('/auth/redirect',[AuthController::class, "redirect"]);
     Route::get('/auth/callback', [AuthController::class, "callback"]);
 });
-
-Route::get('/dashboard', [AdminController::class, "index"])->middleware('role:admin')->name('dashboardadmin');
-Route::get('/petugas', [PetugasController::class, "index"])->middleware('role:petugas')->name('dashboardpetugas');
+Route::get('/admin/dashboard', [AdminController::class, "index"])->middleware('auth_admin')->name('dashboardadmin');
+Route::get('/petugas/dashboard', [PetugasController::class, "index"])->middleware('auth_petugas')->name('dashboardpetugas');

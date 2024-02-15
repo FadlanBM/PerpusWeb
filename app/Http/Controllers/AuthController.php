@@ -28,11 +28,11 @@ class AuthController extends Controller
 
     $validasi=User::where('email',$email)->count();
         if($validasi!=0){
-            $users=User::updateOrCreate([
-            'email' => $email],
+           $users=User::updateOrCreate(
             [
+                'email' => $email,
                 'name' => $name,
-                'google_id' => $id
+                'google_id' => $id,
             ]);
             Auth::login($users);
             if($users->role=="petugas"){
