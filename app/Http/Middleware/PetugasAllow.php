@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class PetugasAllow
@@ -14,10 +15,18 @@ class PetugasAllow
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
-    {
-        if (auth()->user()->role!="petugas"){
-            return back();
+    {     $guards = empty($guards) ? [null] : $guards;
+
+        foreach ($guards as $guard) {
+            if (Auth::guard($guard)->check()) {
+                    if (auth()->user()->role!="petugas"){
+                        return back();
+                    }
+                }
+            if(auth()->user()==null) {
+                return redirect()->route('login');
+            }
+            return $next($request);
         }
-        return $next($request);
     }
 }

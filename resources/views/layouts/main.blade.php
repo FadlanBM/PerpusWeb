@@ -12,7 +12,10 @@
         <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        @vite('resources/css/app.css')
+        @vite(['resources/css/app.css','resources/js/app.js'])
+        @vite('resources/js/main.js')
+        @vite('resources/js/sweetalert.js')
+
     </head>
     <body>
         <main>

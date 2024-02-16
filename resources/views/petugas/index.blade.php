@@ -62,8 +62,8 @@
                         </div>
                     </div>
 
-                    <div class="py-6 flex items-center w-full hover:bg-gray-50 border-t border-gray-200 hover:bg-gray-50">
-                        <a href="#" class="flex-1">
+                    <div id="btnLogout" class="py-6 flex items-center w-full hover:bg-gray-50 border-t border-gray-200 hover:bg-gray-50">
+                        <a  class="flex-1">
                             <div class="text-gray-400 text-base">Sign out</div>
                         </a>
                         <div>

@@ -24,7 +24,7 @@ class RedirectIfAuthenticated
                 if (auth()->user()->role == "admin") {
                     return redirect()->route('dashboardadmin');
                 }
-                return redirect('/dashboard');
+                return redirect()->route('dashboardpetugas');
             }
         }
         return $next($request);

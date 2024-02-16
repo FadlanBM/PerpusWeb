@@ -108,7 +108,6 @@ function hidePopper(popperId) {
     });
 }
 // end: Popper
-
 // start: Tab
 document.querySelectorAll("[data-tab]").forEach(function (item) {
     item.addEventListener("click", function (e) {
