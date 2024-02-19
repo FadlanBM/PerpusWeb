@@ -8,75 +8,93 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
-    protected $google_id;
-    function index(){
+    function index()
+    {
         return view('auth.login');
     }
 
-    function redirect(){
+    function redirect()
+    {
         return Socialite::driver('google')->redirect();
     }
-    function callback(){
-    $user = Socialite::driver('google')->stateless()->user();
-    $id=$user->id;
-    $this->google_id=$id;
-    $email=$user->email;
-    $name=$user->name;
-    $validasi=User::where('email',$email)->count();
-        if($validasi!=0){
-           $users=User::updateOrCreate(
-            [
-                'email' => $email,
-                'name' => $name,
-                'google_id' => $id,
-            ]);
-            Auth::login($users);
-            if($users->role=="petugas"){
-                return redirect()->route('dashboardpetugas')->with("success","Berhasil Login");
-            }
-            return redirect()->route('dashboardadmin')->with("success","Berhasil Login");
-        }
-        else{
-            $users=User::updateOrCreate(
-            [
-                'email' => $email,
-                'name' => $name,
-                'google_id' => $id,
-            ]);
-             return view('auth.complitedata');
-        }
-    }
-
-    function logout(){
-        Auth::logout();
-        return redirect('/')->with('success','Berhasil Logout');
-    }
-
-     public function compliteAdd(Request $request)
+    function callback()
     {
-         $request->validate([
-        'phone' => 'required|string|max:255',
-        'alamat' => 'required|string|max:255',
-        'nik' => 'required|string|max:255',
-        'password' => 'required|string|max:255',
+        $user = Socialite::driver('google')->stateless()->user();
+        $id = $user->id;
+        $email = $user->email;
+        $name = $user->name;
+        $validasi = User::where('email', $email)->count();
+        $validPass = User::where('email', $email)->first();
+        if ($validasi != 0) {
+            if ($validPass->password != null) {
+                return redirect()->route('login')->with('notnull', 'Akun tidak bisa login melalui google');
+            }
+            $users = User::updateOrCreate([
+                'email' => $email,
+                'name' => $name,
+                'google_id' => $id,
+            ]);
+            if ($users->status == 'false') {
+                return redirect()->route('login')->with('status', 'akun belum aktif, silahkan hubungi admin');
+            }
+            Auth::login($users);
+            return redirect()->route('dashboardpetugas')->with('success', 'Berhasil Login');
+        } else {
+            $users = User::updateOrCreate([
+                'email' => $email,
+                'name' => $name,
+                'google_id' => $id,
+                'role' => 'petugas',
+            ]);
+            return redirect()->route('register.complete', ['id' => $id]);
+        }
+    }
+
+    function logout()
+    {
+        Auth::logout();
+        return redirect('/')->with('success', 'Berhasil Logout');
+    }
+
+    public function loginform(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'password' => ['required', 'string', 'min:8'],
         ]);
 
-        $user = User::findOrFail($this->google_id);
-        $user->phone = $request->phone;
-        $user->alamat = $request->alamat;
-        $user->nik = $request->nik;
-        $user->password=Hash::make($request->password);
-        $user->save();
-
-        Auth::login($user);
-        if ($user->role == "petugas") {
-            return redirect()->route('dashboardpetugas')->with("success", "Berhasil Login");
+        if ($validator->fails()) {
+            return redirect()->route('login')->withErrors($validator)->withInput();
         }
-        return redirect()->route('dashboardadmin')->with("success", "Berhasil Login");
+
+        $user = User::where('email', $request->email)->first();
+        if ($user == null) {
+            return redirect('login')->with('error', 'Email tidak di temukan');
+        }
+
+        if ($user->password != null) {
+            if (Hash::check($request->password, $user->password)) {
+                if ($user->status == 'false') {
+                    return redirect()->route('login')->with('status', 'akun belum aktif, silahkan hubungi admin');
+                }
+                else{
+                    Auth::login($user);
+                    if ($user->role == 'admin') {
+                        return redirect()->route('dashboardadmin')->with('success', 'Berhasil Login');
+                    }
+                    return redirect()->route('dashboardpetugas')->with('success', 'Berhasil Login');
+                }
+            } else {
+                return redirect()->route('login')->with('error', 'Password salah');
+            }
+        } else {
+            return redirect()->route('login')->with('notnull', 'Akun tidak bisa login melalui form login');
+        }
     }
 }
