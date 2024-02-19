@@ -11,6 +11,5 @@
             @component('admin.components.navbar')
             @endcomponent
             {{-- EndNavbar --}}
-
             @yield('content_admin')
 @endsection

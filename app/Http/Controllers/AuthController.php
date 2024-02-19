@@ -30,8 +30,8 @@ class AuthController extends Controller
         $email = $user->email;
         $name = $user->name;
         $validasi = User::where('email', $email)->count();
-        $validPass = User::where('email', $email)->first();
-        if ($validasi != 0) {
+        $validPass = User::where('google_id', $id)->first();
+        if ($validPass->alamat != null && $validPass->phone != null && $validasi!=0) {
             if ($validPass->password != null) {
                 return redirect()->route('login')->with('notnull', 'Akun tidak bisa login melalui google');
             }
@@ -75,7 +75,7 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email)->first();
         if ($user == null) {
-            return redirect('login')->with('error', 'Email tidak di temukan');
+            return redirect()->route('login')->with('error', 'Email tidak di temukan');
         }
 
         if ($user->password != null) {

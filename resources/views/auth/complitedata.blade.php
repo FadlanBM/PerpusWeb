@@ -11,7 +11,7 @@
             <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Register </h2>
             <p class="mt-2 text-lg leading-8 text-gray-600">Lengkapi data diri anda terlebih dahulu </p>
         </div>
-        <form method="POST" action="{{ route('data.update', ['id' => $id]) }}" class="mx-auto mt-16 max-w-xl sm:mt-20"
+        <form method="POST" action="{{ route('data.update', $users->id) }}" class="mx-auto mt-16 max-w-xl sm:mt-20"
             onsubmit="return validateForm()">
             @csrf
             @method('PUT')
@@ -19,7 +19,7 @@
                 <div class="sm:col-span-2">
                     <label for="alamat" class="block text-sm font-semibold leading-6 text-red-600">Phone</label>
                     <div class="mt-2.5">
-                        <input type="text" name="phone" id="phone" autocomplete="text"
+                        <input type="text" name="phone" id="phone" autocomplete="text" value="{{ $users->phone }}"
                             class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset shadow-blue-500 ring-blue-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
                             required>
                         @error('phone')
@@ -32,7 +32,7 @@
                     <div class="mt-2.5">
                         <textarea name="alamat" id="alamat" rows="4"
                             class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                            required></textarea>
+                            required>{{ $users->alamat }}</textarea>
                         @error('alamat')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -41,7 +41,7 @@
             </div>
             <div class="mt-10">
                 <button type="submit"
-                    class="block w-full rounded-md bg-cyan-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Register</button>
+                            class="w-full px-6 py-5 mb-5 text-sm font-bold leading-none text-white transition duration-300 md:w-96 rounded-2xl hover:bg-blue-600 focus:ring-4 focus:ring-blue-100 bg-blue-500">Add Data</button>
             </div>
         </form>
     </div>

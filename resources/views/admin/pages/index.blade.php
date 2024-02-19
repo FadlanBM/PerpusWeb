@@ -462,7 +462,4 @@
                 </div>
             </div>
         </div>
-      <!-- End Content -->
-    </main>
-</body>
 @endsection

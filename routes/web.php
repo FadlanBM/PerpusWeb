@@ -3,8 +3,12 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\DashboardAdminController;
+use App\Http\Controllers\DashboardPetugasController;
 use App\Http\Controllers\DashboradAdminController;
 use App\Http\Controllers\ManagementAdminController;
+use App\Http\Controllers\ManagementPeminjamController;
+use App\Http\Controllers\ManagementPetugasController;
 use App\Http\Controllers\PetugasController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Middleware\PetugasAllow;
@@ -21,19 +25,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['guest'])->group(function(){
-    Route::get('/',[AuthController::class,"index"])->name('login');
-    Route::get('/register/complete/{id}',[RegisterController::class,"index_complete"])->name('register.complete');
+Route::middleware(['guest'])->group(function () {
+    Route::get('/', [AuthController::class, 'index'])->name('login');
+    Route::get('/register/complete/{id}', [RegisterController::class, 'index_complete'])->name('register.complete');
     Route::post('/', [AuthController::class, 'loginform']);
     Route::put('/register/complete/{id}', [RegisterController::class, 'compliteAdd'])->name('data.update');
     Route::get('/register', [RegisterController::class, 'index'])->name('register');
     Route::post('/register', [RegisterController::class, 'register']);
-    Route::get('/auth/redirect',[AuthController::class, "redirect"]);
-    Route::get('/auth/callback', [AuthController::class, "callback"]);
+    Route::get('/auth/redirect', [AuthController::class, 'redirect']);
+    Route::get('/auth/callback', [AuthController::class, 'callback']);
 });
-Route::get('/admin/dashboard', [DashboradAdminController::class, "index"])->middleware('auth_admin')->name('dashboardadmin');
-Route::get('/admin/management/admin', [ManagementAdminController::class, "index"])->middleware('auth_admin')->name('managementadmin');
-Route::get('/admin/management/create', [ManagementAdminController::class, "indexcreate"])->middleware('auth_admin')->name('createadmin');
-Route::get('/petugas/dashboard', [PetugasController::class, "index"])->middleware('auth_petugas')->name('dashboardpetugas');
-Route::get('/auth/logout', [AuthController::class, "logout"])->middleware('auth')->name('logout');
 
+Route::middleware(['auth_admin'])->group(function () {
+    Route::get('/admin/dashboard', [DashboardAdminController::class, 'index'])->name('dashboardadmin');
+    Route::get('/admin/management/admin', [ManagementAdminController::class, 'index'])->name('managementadmin');
+    Route::get('/admin/management/petugas', [ManagementPetugasController::class, 'index'])->name('managementpetugas');
+    Route::get('/admin/management/peminjam', [ManagementPeminjamController::class, 'index'])->name('managementpeminjam');
+});
+
+Route::middleware(['auth_petugas'])->group(function () {
+    Route::get('/petugas/dashboard', [DashboardPetugasController::class, 'index'])->name('dashboardpetugas');
+});
+
+Route::get('/auth/logout', [AuthController::class, 'logout'])
+    ->middleware('auth')
+    ->name('logout');

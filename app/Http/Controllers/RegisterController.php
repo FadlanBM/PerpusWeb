@@ -18,7 +18,8 @@ class RegisterController extends Controller
 
     public function index_complete($id)
     {
-        return view('auth.complitedata')->with('id', $id);
+        $users = User::where('google_id', $id)->first();
+        return view('auth.complitedata',compact('users'));
     }
 
     public function register(Request $request)
@@ -63,7 +64,12 @@ class RegisterController extends Controller
                 ->withInput();
         }
 
-        $user = User::where('google_id', $id)->firstOrFail();
+        $user = User::findOrFail($id);
+        if($user->phone!=null ){
+
+        }if($user->alamat!=null){
+
+        }
         $user->phone = $request->phone;
         $user->alamat = $request->alamat;
         $user->save();
