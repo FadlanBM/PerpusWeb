@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class ManagementPetugasController extends Controller
+class HistoryPeminjamanController extends Controller
 {
-    public function index(){
-        $users = User::where('status', 'true')->where('role', 'petugas')->get();
-        return view('admin.pages.managementpetugas.index',['users' => $users]);
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        return view('petugas.pages.historypeminjam');
     }
 
-      /**
+    /**
      * Show the form for creating a new resource.
      */
     public function create()

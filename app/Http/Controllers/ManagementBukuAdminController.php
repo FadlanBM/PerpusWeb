@@ -6,11 +6,10 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class ManagementPetugasController extends Controller
+class ManagementBukuAdminController extends Controller
 {
     public function index(){
-        $users = User::where('status', 'true')->where('role', 'petugas')->get();
-        return view('admin.pages.managementpetugas.index',['users' => $users]);
+        return view('admin.pages.managementbuku.index');
     }
 
       /**

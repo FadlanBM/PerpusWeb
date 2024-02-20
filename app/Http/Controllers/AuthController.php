@@ -31,10 +31,19 @@ class AuthController extends Controller
         $name = $user->name;
         $validasi = User::where('email', $email)->count();
         $validPass = User::where('google_id', $id)->first();
-        if ($validPass->alamat != null && $validPass->phone != null && $validasi!=0) {
-            if ($validPass->password != null) {
-                return redirect()->route('login')->with('notnull', 'Akun tidak bisa login melalui google');
-            }
+        if ($validasi == 0) {
+            $users = User::updateOrCreate([
+                'email' => $email,
+                'name' => $name,
+                'google_id' => $id,
+                'role' => 'petugas',
+            ]);
+            return redirect()->route('register.complete', ['id' => $id]);
+        }
+        if ($validPass == null) {
+            return redirect()->route('login')->with('notnull', 'Akun tidak bisa login melalui google');
+        }
+        if ($validPass->alamat != null && $validPass->phone != null && $validasi != 0) {
             $users = User::updateOrCreate([
                 'email' => $email,
                 'name' => $name,
@@ -44,14 +53,11 @@ class AuthController extends Controller
                 return redirect()->route('login')->with('status', 'akun belum aktif, silahkan hubungi admin');
             }
             Auth::login($users);
-            return redirect()->route('dashboardpetugas')->with('success', 'Berhasil Login');
+            if ($users->role == 'petugas') {
+                return redirect()->route('dashboardpetugas')->with('success', 'Berhasil Login');
+            }
+            return redirect()->route('dashboardadmin')->with('success', 'Berhasil Login');
         } else {
-            $users = User::updateOrCreate([
-                'email' => $email,
-                'name' => $name,
-                'google_id' => $id,
-                'role' => 'petugas',
-            ]);
             return redirect()->route('register.complete', ['id' => $id]);
         }
     }
@@ -82,8 +88,7 @@ class AuthController extends Controller
             if (Hash::check($request->password, $user->password)) {
                 if ($user->status == 'false') {
                     return redirect()->route('login')->with('status', 'akun belum aktif, silahkan hubungi admin');
-                }
-                else{
+                } else {
                     Auth::login($user);
                     if ($user->role == 'admin') {
                         return redirect()->route('dashboardadmin')->with('success', 'Berhasil Login');

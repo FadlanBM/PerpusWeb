@@ -16,7 +16,7 @@ class RegisterController extends Controller
         return view('auth.register');
     }
 
-    public function index_complete($id)
+        public function index_complete($id)
     {
         $users = User::where('google_id', $id)->first();
         return view('auth.complitedata',compact('users'));
@@ -58,8 +58,9 @@ class RegisterController extends Controller
         ]);
 
         if ($validator->fails()) {
+            $user_id = User::findOrFail($id);
             return redirect()
-                ->route('register.complete', ['id' => $id])
+                ->route('register.complete', ['id' => $user_id->google_id])
                 ->withErrors($validator)
                 ->withInput();
         }

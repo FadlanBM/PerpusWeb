@@ -39,9 +39,9 @@
                     </div>
                 </div>
             </div>
-            <div class="mt-10">
+            <div class=" mt-10">
                 <button type="submit"
-                            class="w-full px-6 py-5 mb-5 text-sm font-bold leading-none text-white transition duration-300 md:w-96 rounded-2xl hover:bg-blue-600 focus:ring-4 focus:ring-blue-100 bg-blue-500">Add Data</button>
+                    class="flex items-center justify-center w-full py-4 mb-6 text-sm font-bold  text-white transition duration-300 rounded-2xl  hover:bg-blue-600 focus:ring-4 focus:ring-blue-100 bg-blue-500">Submit</button>
             </div>
         </form>
     </div>
