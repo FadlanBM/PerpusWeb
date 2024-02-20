@@ -20,9 +20,25 @@ class ValidasiPetugasController extends Controller
         $user = User::findOrFail($id);
         $user->status = 'true';
         $user->save();
+        if ($user == null) {
+            return response()->json(['errors' => 'error'], 422);
+        }
         return response()->json([
             'data' => $user,
-            'message' => 'SUCCESS'
+            'message' => 'SUCCESS',
+        ]);
+    }
+
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+        if ($user == null) {
+            return response()->json(['errors' => 'error'], 422);
+        }
+        return response()->json([
+            'data' => $user,
+            'message' => 'SUCCESS',
         ]);
     }
 }

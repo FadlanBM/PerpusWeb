@@ -17,7 +17,7 @@
                                 <th scope="col" class="px-6 py-3">
                                     Status
                                 </th>
-
+                                <th scope="col" class="px-6 py-3"> </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -57,7 +57,25 @@
                 cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) {
-
+                        axios.put(`/admin/management/petugas/destroy/{{ $user->id }}`)
+                         .then((response) => {
+                        Swal.fire(
+                            'Berhasil!',
+                            'Akses ke akun telah diberikan.',
+                            'success'
+                            ).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.reload();
+                                }
+                            });
+                    })
+                    .catch((error) => {
+                        Swal.fire(
+                            'Gagal!',
+                            'Terjadi kesalahan saat memberikan akses ke akun.',
+                            'error'
+                        );
+                    });
                 }
             });
         ">
@@ -81,18 +99,19 @@
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.put(`/admin/management/petugas/aktivasi/{{$user->id}}`)
+                axios.put(`/admin/management/petugas/aktivasi/{{ $user->id }}`)
                     .then((response) => {
-                        // Handle success response
                         Swal.fire(
                             'Berhasil!',
                             'Akses ke akun telah diberikan.',
                             'success'
-                            );
-                            location.reload();
+                            ).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.reload();
+                                }
+                            });
                     })
                     .catch((error) => {
-                        // Handle error response
                         Swal.fire(
                             'Gagal!',
                             'Terjadi kesalahan saat memberikan akses ke akun.',

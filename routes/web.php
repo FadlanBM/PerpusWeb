@@ -14,6 +14,7 @@ use App\Http\Controllers\ManagementBukuController;
 use App\Http\Controllers\ManagementPeminjamController;
 use App\Http\Controllers\ManagementPetugasController;
 use App\Http\Controllers\PetugasController;
+use App\Http\Controllers\ProfileAkunController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\validasipetugascontroller;
 use App\Http\Controllers\ValidasiPetugasController as ControllersValidasiPetugasController;
@@ -47,8 +48,9 @@ Route::middleware(['auth_admin'])->group(function () {
     Route::get('/admin/management/buku', [ManagementBukuAdminController::class, 'index'])->name('managementbukuadmin');
     Route::get('/admin/management/petugas', [ManagementPetugasController::class, 'index'])->name('managementpetugas');
     Route::get('/admin/management/petugas/validasi', [ControllersValidasiPetugasController::class, 'index'])->name('validasipetugas');
-    Route::put('/admin/management/petugas/aktivasi/{id}', [ControllersValidasiPetugasController::class, 'validasi'])->name('petugas.aktivasi');
-
+    Route::put('/admin/management/petugas/aktivasi/{id}', [ControllersValidasiPetugasController::class, 'validasi']);
+    Route::put('/admin/management/petugas/destroy/{id}', [ControllersValidasiPetugasController::class, 'destroy']);
+    Route::get('/admin/management/petugas/profile', [ProfileAkunController::class, 'indexadmin'])->name('profile.petugas');
 });
 
 Route::middleware(['auth_petugas'])->group(function () {

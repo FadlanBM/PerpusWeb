@@ -187,7 +187,7 @@
                         <div class="flex-shrink-0 w-10 h-10 relative">
                             <div class="p-1 bg-white rounded-full focus:outline-none focus:ring">
                                 <img class="w-8 h-8 rounded-full"
-                                    src="https://laravelui.spruko.com/tailwind/ynex/build/assets/images/faces/9.jpg"
+                                    src="{{asset('assets')}}/img/faces/{{auth()->user()->img}}"
                                     alt="" />
                                 <div
                                     class="top-0 left-7 absolute w-3 h-3 bg-lime-400 border-2 border-white rounded-full animate-ping">
@@ -198,8 +198,8 @@
                             </div>
                         </div>
                         <div class="p-2 md:block text-left">
-                            <h2 class="text-sm font-semibold text-gray-800">John Doe</h2>
-                            <p class="text-xs text-gray-500">Administrator</p>
+                            <h2 class="text-sm font-semibold text-gray-800">{{auth()->user()->name}}</h2>
+                            <p class="text-xs text-gray-500">{{Str::upper(auth()->user()->role)}}</p>
                         </div>
                     </button>
                     <ul
@@ -207,10 +207,6 @@
                         <li>
                             <a href="#"
                                 class="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-[#f84525] hover:bg-gray-50">Profile</a>
-                        </li>
-                        <li>
-                            <a href="#"
-                                class="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-[#f84525] hover:bg-gray-50">Settings</a>
                         </li>
                         <li>
                             <a id="btnLogout" role="menuitem"

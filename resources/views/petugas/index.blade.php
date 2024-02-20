@@ -13,4 +13,6 @@
             {{-- EndNavbar --}}
             <!-- Content -->
             @yield('content_petugas')
+        </main>
+    </body>
 @endsection

@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -16,7 +17,7 @@ class AuthController extends Controller
 {
     function index()
     {
-        return view('auth.login');
+        return response()->view('auth.login')->header('Cache-Control', 'no-store');
     }
 
     function redirect()
@@ -29,14 +30,19 @@ class AuthController extends Controller
         $id = $user->id;
         $email = $user->email;
         $name = $user->name;
+        $img= $user->avatar;
         $validasi = User::where('email', $email)->count();
         $validPass = User::where('google_id', $id)->first();
         if ($validasi == 0) {
+            $img_file=$id.".jpg";
+            $file_content=file_get_contents($img);
+            File::put(public_path('assets/img/faces/$img_file'),$file_content);
             $users = User::updateOrCreate([
                 'email' => $email,
                 'name' => $name,
                 'google_id' => $id,
                 'role' => 'petugas',
+                'img'=>$img_file,
             ]);
             return redirect()->route('register.complete', ['id' => $id]);
         }
@@ -44,10 +50,15 @@ class AuthController extends Controller
             return redirect()->route('login')->with('notnull', 'Akun tidak bisa login melalui google');
         }
         if ($validPass->alamat != null && $validPass->phone != null && $validasi != 0) {
-            $users = User::updateOrCreate([
-                'email' => $email,
+            $img_file=$id.".jpg";
+            $file_content=file_get_contents($img);
+            File::put(public_path("assets/img/faces/$img_file"),$file_content);
+            $users = User::updateOrCreate(
+                ['email' => $email],
+                [
                 'name' => $name,
                 'google_id' => $id,
+                'img'=>$img_file
             ]);
             if ($users->status == 'false') {
                 return redirect()->route('login')->with('status', 'akun belum aktif, silahkan hubungi admin');

@@ -12,4 +12,6 @@
             @endcomponent
             {{-- EndNavbar --}}
             @yield('content_admin')
+        </main>
+    </body>
 @endsection

@@ -33,7 +33,8 @@
                         <label for="email" class="mb-2 text-sm text-start text-grey-900">Email*</label>
                         <div class="mb-7">
                             <input id="email" name="email" type="email" placeholder="example@google.com"
-                                class="flex items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl" required/>
+                                class="flex items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
+                                required />
                             @error('email')
                                 <span class=" mt-2 text-danger">{{ $message }}</span>
                             @enderror
@@ -41,15 +42,16 @@
                         <label for="password" class="mb-2 text-sm text-start text-grey-900">Password*</label>
                         <div class="mb-5">
                             <input id="password" name="password" type="password" placeholder="Enter a password"
-                                class="flex items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl" required/>
+                                class="flex items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
+                                required />
                             @error('password')
                                 <span class="mt-2 text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                         <button type="submit"
                             class="w-full px-6 py-5 mb-5 text-sm font-bold leading-none text-white transition duration-300 md:w-96 rounded-2xl hover:bg-blue-600 focus:ring-4 focus:ring-blue-100 bg-blue-500">SignIn</button>
-                        <p class="text-sm leading-relaxed text-grey-900">Belum Punya Akum? <a
-                                href="{{ route('register') }}" class="font-bold text-grey-700">Register</a></p>
+                        <p class="text-sm leading-relaxed text-grey-900">Belum Punya Akum? <a href="{{ route('register') }}"
+                                class="font-bold text-grey-700">Register</a></p>
                     </form>
                 </div>
             </div>

@@ -28,14 +28,14 @@
                     <i class="ri-arrow-right-s-line ml-auto group-[.selected]:rotate-90"></i>
                 </a>
                 <ul class="pl-7 mt-2 hidden group-[.selected]:block">
-                    <li class="mb-4">
+                    <li class="active mb-4">
                         <a href="{{ route('managementpetugas') }}"
-                            class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Management
+                            class="{{ request()->routeIs('managementpetugas') ? 'font-bold text-[#f84525]' : '' }} text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Management
                             Peminjam</a>
                     </li>
                     <li class="mb-4">
                         <a href="{{ route('validasipetugas') }}"
-                            class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Aktivasi
+                            class="{{ request()->routeIs('validasipetugas') ? 'font-bold text-[#f84525]' : '' }} text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Aktivasi
                             Peminjam</a>
                     </li>
                 </ul>
