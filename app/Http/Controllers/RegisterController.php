@@ -66,11 +66,11 @@ class RegisterController extends Controller
         }
 
         $user = User::findOrFail($id);
-        if($user->phone!=null ){
+        // if($user->phone!=null ){
 
-        }if($user->alamat!=null){
+        // }if($user->alamat!=null){
 
-        }
+        // }
         $user->phone = $request->phone;
         $user->alamat = $request->alamat;
         $user->save();
