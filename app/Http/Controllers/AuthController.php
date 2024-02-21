@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Socialite\Facades\Socialite;
@@ -30,36 +31,36 @@ class AuthController extends Controller
         $id = $user->id;
         $email = $user->email;
         $name = $user->name;
-        $img= $user->avatar;
+        $img = $user->avatar;
         $validasi = User::where('email', $email)->count();
-        $validPass = User::where('google_id', $id)->first();
+        $validasiid = User::where('google_id', $id)->first();
         if ($validasi == 0) {
-            $img_file=$id.".jpg";
-            $file_content=file_get_contents($img);
-            File::put(public_path('assets/img/faces/$img_file'),$file_content);
+            $filename = $id .'.jpg';
+            $path = Storage::putFileAs('profile', $img, $filename);
+            $img_file = basename($path);
             $users = User::updateOrCreate([
                 'email' => $email,
                 'name' => $name,
                 'google_id' => $id,
-                'role' => 'petugas',
-                'img'=>$img_file,
+                'img' => $img_file,
             ]);
             return redirect()->route('register.complete', ['id' => $id]);
         }
-        if ($validPass == null) {
+        if ($validasiid == null) {
             return redirect()->route('login')->with('notnull', 'Akun tidak bisa login melalui google');
         }
-        if ($validPass->alamat != null && $validPass->phone != null && $validasi != 0) {
-            $img_file=$id.".jpg";
-            $file_content=file_get_contents($img);
-            File::put(public_path("assets/img/faces/$img_file"),$file_content);
+        if ($validasiid->alamat != null && $validasiid->phone != null && $validasi != 0) {
+            $filename = $id . '.jpg';
+            $path = Storage::putFileAs('profile', $img, $filename);
+            $img_file = basename($path);
             $users = User::updateOrCreate(
                 ['email' => $email],
                 [
-                'name' => $name,
-                'google_id' => $id,
-                'img'=>$img_file
-            ]);
+                    'name' => $name,
+                    'google_id' => $id,
+                    'img' => $img_file,
+                ],
+            );
             if ($users->status == 'false') {
                 return redirect()->route('login')->with('status', 'akun belum aktif, silahkan hubungi admin');
             }

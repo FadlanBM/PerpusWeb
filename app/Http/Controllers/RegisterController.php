@@ -27,7 +27,7 @@ class RegisterController extends Controller
         $validator = Validator::make($request->all(), [
             'nama_depan' => ['required', 'string', 'max:255'],
             'nama_belakang' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:petugas'],
             'phone' => ['required', 'numeric'],
             'password' => ['required', 'string', 'min:8'],
             'alamat' => ['required', 'string', 'max:255'],
@@ -44,7 +44,6 @@ class RegisterController extends Controller
             'password' => bcrypt($request->password),
             'phone' => $request->phone,
             'alamat' => $request->alamat,
-            'role' => 'petugas',
         ]);
 
         return redirect()->route('login')->with('status', 'akun belum aktif, silahkan hubungi admin');

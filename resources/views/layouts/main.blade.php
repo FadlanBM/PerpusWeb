@@ -13,6 +13,7 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2"></script>
+        <script src="https://cdn.jsdelivr.net/gh/alpine-collective/alpine-magic-helpers@0.3.x/dist/index.js"></script>
         @vite(['resources/css/app.css','resources/js/app.js'])
         @vite('resources/js/main.js')
         @vite('resources/js/sweetalert.js')

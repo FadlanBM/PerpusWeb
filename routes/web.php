@@ -45,7 +45,8 @@ Route::middleware(['guest'])->group(function () {
 
 Route::get('/admin/management/profile', [ProfileAkunController::class, 'index'])->middleware('auth')->name('profile.petugas');
 Route::put('/admin/management/profile/update/{id}', [ProfileAkunController::class, 'update'])->middleware('auth')->name('profile.update');
-Route::delete('/admin/management/profile/delete/{id}', [ProfileAkunController::class, 'destroy'])->middleware('auth')->name('profile.update');
+Route::delete('/admin/management/profile/delete/{id}', [ProfileAkunController::class, 'destroy'])->middleware('auth')->name('profile.delete');
+Route::put('/admin/management/profile/reset/pass/{id}', [ProfileAkunController::class, 'resetPass'])->middleware('auth')->name('profile.reset');
 
 Route::middleware(['auth_admin'])->group(function () {
     Route::get('/admin/dashboard', [DashboardAdminController::class, 'index'])->name('dashboardadmin');

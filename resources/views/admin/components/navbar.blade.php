@@ -131,7 +131,7 @@
                     <button type="button" class="dropdown-toggle flex items-center">
                         <div class="flex-shrink-0 w-10 h-10 relative">
                             <div class="p-1 bg-white rounded-full focus:outline-none focus:ring">
-                                <img class="w-8 h-8 rounded-full" src="{{asset('assets')}}/img/faces/{{auth()->user()->img}}" alt=""/>
+                                <img class="w-8 h-8 rounded-full" src="{{ asset('storage/profile/' . auth()->user()->img) }}" alt=""/>
                                 <div class="top-0 left-7 absolute w-3 h-3 bg-lime-400 border-2 border-white rounded-full animate-ping"></div>
                                 <div class="top-0 left-7 absolute w-3 h-3 bg-lime-500 border-2 border-white rounded-full"></div>
                             </div>

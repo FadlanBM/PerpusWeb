@@ -25,7 +25,7 @@
                     <button type="button" class="dropdown-toggle flex items-center focus:outline-none">
                         <div class="flex-shrink-0 w-10 h-10 relative">
                             <div class="p-1 bg-white rounded-full">
-                                <img class="w-8 h-8 rounded-full" src="{{ asset('assets/img/faces/' . auth()->user()->img) }}"
+                                <img class="w-8 h-8 rounded-full" src="{{ asset('storage/profile/' . auth()->user()->img) }}"
                                     alt="" />
                                 <div
                                     class="top-0 left-7 absolute w-3 h-3 bg-lime-400 border-2 border-white rounded-full animate-ping">
@@ -63,30 +63,57 @@
             <div class="md:flex no-wrap md:-mx-2 ">
                 <!-- Left Side -->
                 <div class="w-full md:w-3/12 md:mx-2">
+
                     <!-- Profile Card -->
-                    <div class="bg-white p-3 border-t-4 border-green-400">
-                        <div class="image overflow-hidden">
-                            <img class="h-auto w-full mx-auto" src="{{ asset('assets/img/faces/' . auth()->user()->img) }}"
-                                alt="">
-                        </div>
-                        <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">{{ auth()->user()->name }}</h1>
-                        <h3 class="text-gray-600 font-lg text-semibold leading-6">{{ strtoupper(auth()->user()->role) }}
-                        </h3>
-                        <ul
-                            class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">
-                            <li class="flex items-center py-3">
-                                <span>Status</span>
-                                <span class="ml-auto"><span
-                                        class="bg-green-500 py-1 px-2 rounded text-white text-sm">{{ strtoupper(auth()->user()->status ? 'active' : 'pasif') }}</span></span>
-                            </li>
-                            <li class="flex items-center py-3">
-                                <span>Member since</span>
-                                <span
-                                    class="ml-auto">{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', auth()->user()->created_at)->format('d-m-Y') }}
+                    <div x-data="{ photoName: null, photoPreview: null }" class="col-span-6 ml-2 sm:col-span-4 md:mr-3">
+                        <!-- Photo File Input -->
+                        <input type="file" class="hidden" x-ref="photo"
+                            x-on:change="
+                        photoName = $refs.photo.files[0].name;
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            photoPreview = e.target.result;
+                            console.log('asdasdsa');
+                        };
+                        reader.readAsDataURL($refs.photo.files[0]);
+    ">
+                        <div class="bg-white p-3 border-t-4 border-green-400">
+                            <div class="mt-2" x-show="! photoPreview">
+                                <img class="h-auto w-full mx-auto"
+                                    src="{{ asset('storage/profile/' . auth()->user()->img) }}" alt="">
+                            </div>
+                            <div class="mt-2" x-show="photoPreview" style="display: none;">
+                                <span class="block w-40 h-40 rounded-full m-auto shadow"
+                                    x-bind:style="'background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' +
+                                    photoPreview + '\');'"
+                                    style="background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url('null');">
                                 </span>
-                            </li>
-                        </ul>
+                            </div>
+                            <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">{{ auth()->user()->name }}</h1>
+                            <h3 class="text-gray-600 font-lg text-semibold leading-6">{{ strtoupper(auth()->user()->role) }}
+                                <button type="button"
+                                    class="items-end justify-end px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-400 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150 mt-2 ml-3"
+                                    x-on:click.prevent="$refs.photo.click()">
+                                    Select New Photo
+                                </button>
+                            </h3>
+                            <ul
+                                class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">
+                                <li class="flex items-center py-3">
+                                    <span>Status</span>
+                                    <span class="ml-auto"><span
+                                            class="bg-green-500 py-1 px-2 rounded text-white text-sm">{{ strtoupper(auth()->user()->status ? 'active' : 'pasif') }}</span></span>
+                                </li>
+                                <li class="flex items-center py-3">
+                                    <span>Member since</span>
+                                    <span
+                                        class="ml-auto">{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', auth()->user()->created_at)->format('d-m-Y') }}
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
+
                     <!-- End of profile card -->
                     <div class="my-4"></div>
                 </div>
@@ -126,23 +153,14 @@
                                 </div>
                             </div>
                         </div>
+                           <div class="flex items-center mb-3 mt-5">
+                            <hr class="h-0 border-b border-solid border-grey-500 grow">
+                            <p class="mx-4 text-grey-600">Aksi</p>
+                            <hr class="h-0 border-b border-solid border-grey-500 grow">
+                        </div>
                         <button onclick="my_modal_3.showModal()"
                             class="block w-full text-blue-800 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">Edit
                             Profile</button>
-                    </div>
-                    <!-- End of about section -->
-                    <div class="bg-white p-3 shadow-sm rounded-sm mt-10">
-                        <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
-                            <span class="text-green-500">
-                                <svg class="h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 13l4 4L19 7" />
-                                </svg>
-                            </span>
-
-                            <span class="tracking-wide">Aksi</span>
-                        </div>
                         <button x-data="{ tooltip: 'Delete' }"
                             class="block w-full text-red-800 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4"
                             x-on:click.prevent="
@@ -157,15 +175,15 @@
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
-                        axios.delete(`/admin/management/profile/delete/{{auth()->user()->id}}`)
+                        axios.delete(`/admin/management/profile/delete/{{ auth()->user()->id }}`)
                          .then((response) => {
                         Swal.fire(
                             'Berhasil!',
-                            'Akun Berhasil dihabus anda harus login kembali!.',
+                            'Akun Berhasil delete, anda harus login kembali!.',
                             'success'
                             ).then((result) => {
                                 if (result.isConfirmed) {
-                                    axios.get(`/`)
+                                    location.reload();
                                 }
                             });
                     })
@@ -181,13 +199,13 @@
     ">
                             Delete Akun
                         </button>
-                        <button
-                            class="block w-full text-red-800 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">Reset
-                            Password</button>
-                        <button
-                            class="block w-full text-blue-800 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">Logout</button>
+
+                        @if (auth()->user()->password != null)
+                            <button onclick="reset_pass.showModal()"
+                                class="block w-full text-red-800 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">Reset
+                                Password</button>
+                        @endif
                     </div>
-                    <!-- End of about section -->
                 </div>
             </div>
         </div>
@@ -233,15 +251,81 @@
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
-                <button type="submit" class="w-full btn btn-outline btn-primary">Update</button>
+                <div class="flex justify-end">
+                    <button type="submit" class=" btn btn-outline btn-primary">Update</button>
+            </form>
+            <form method="dialog">
+                <button class="btn ml-2">Close</button>
+            </form>
+        </div>
+        </div>
+    </dialog>
+
+    <dialog id="reset_pass" class="modal">
+        <div class="modal-box bg-white">
+            <form action="{{ route('profile.reset', auth()->user()->id) }}" method="POST" class="space-y-4"
+                action="#">
+                @csrf
+                @method('PUT')
+                <div>
+                    <label for="pass_old" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Password Old</label>
+                    <input type="password" name="pass_old" id="pass_old"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                        required />
+                    @error('pass_old')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+                <div class="sm:col-span-2">
+                    <label for="password_new" class="block text-sm font-semibold leading-6 text-red-600">Password</label>
+                    <div class="mt-2.5">
+                        <input type="password" name="password_new" id="password_new" autocomplete="text"
+                            class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset shadow-blue-500 ring-blue-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
+                            required>
+                        @error('password_new')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="sm:col-span-2">
+                    <label for="con_pass" class="block text-sm font-semibold leading-6 text-red-600">Confirm
+                        Password</label>
+                    <div class="mt-2.5">
+                        <input type="password" name="password_new_confirmation" id="password_new_confirmation"
+                            autocomplete="text"
+                            class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset shadow-blue-500 ring-blue-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
+                            required>
+                        @error('password_new_confirmation')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="flex justify-start">
+                    <button type="submit" class=" btn btn-outline btn-primary">Reset</button>
+            </form>
+            <form method="dialog">
+                <button class="btn ml-2">Close</button>
             </form>
         </div>
     </dialog>
 
     <script>
-        const modal = document.getElementById('my_modal_3');
+        const modal3 = document.getElementById('my_modal_3');
         $(document).ready(function() {
             @if ($errors->any())
+                modal3.showModal();
+            @endif
+        });
+
+        const modal = document.getElementById('reset_pass');
+        $(document).ready(function() {
+            @if ($errors->has('password_new'))
+                modal.showModal();
+            @endif
+        });
+        $(document).ready(function() {
+            @if ($errors->has('pass_old'))
                 modal.showModal();
             @endif
         });
