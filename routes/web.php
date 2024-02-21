@@ -42,6 +42,8 @@ Route::middleware(['guest'])->group(function () {
     Route::get('/auth/redirect', [AuthController::class, 'redirect']);
     Route::get('/auth/callback', [AuthController::class, 'callback']);
 });
+Route::get('/admin/management/profile', [ProfileAkunController::class, 'index'])->middleware('auth')->name('profile.petugas');
+Route::put('/admin/management/profile/update/{id}', [ProfileAkunController::class, 'update'])->middleware('auth')->name('profile.update');
 
 Route::middleware(['auth_admin'])->group(function () {
     Route::get('/admin/dashboard', [DashboardAdminController::class, 'index'])->name('dashboardadmin');
@@ -50,7 +52,6 @@ Route::middleware(['auth_admin'])->group(function () {
     Route::get('/admin/management/petugas/validasi', [ControllersValidasiPetugasController::class, 'index'])->name('validasipetugas');
     Route::put('/admin/management/petugas/aktivasi/{id}', [ControllersValidasiPetugasController::class, 'validasi']);
     Route::put('/admin/management/petugas/destroy/{id}', [ControllersValidasiPetugasController::class, 'destroy']);
-    Route::get('/admin/management/petugas/profile', [ProfileAkunController::class, 'indexadmin'])->name('profile.petugas');
 });
 
 Route::middleware(['auth_petugas'])->group(function () {
