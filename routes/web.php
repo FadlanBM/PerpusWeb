@@ -11,6 +11,7 @@ use App\Http\Controllers\HistoryPeminjamanController;
 use App\Http\Controllers\ManagementAdminController;
 use App\Http\Controllers\ManagementBukuAdminController;
 use App\Http\Controllers\ManagementBukuController;
+use App\Http\Controllers\ManagementKategory;
 use App\Http\Controllers\ManagementPeminjamController;
 use App\Http\Controllers\ManagementPetugasController;
 use App\Http\Controllers\PetugasController;
@@ -43,10 +44,12 @@ Route::middleware(['guest'])->group(function () {
     Route::get('/auth/callback', [AuthController::class, 'callback']);
 });
 
-Route::get('/admin/management/profile', [ProfileAkunController::class, 'index'])->middleware('auth')->name('profile.petugas');
-Route::put('/admin/management/profile/update/{id}', [ProfileAkunController::class, 'update'])->middleware('auth')->name('profile.update');
-Route::delete('/admin/management/profile/delete/{id}', [ProfileAkunController::class, 'destroy'])->middleware('auth')->name('profile.delete');
-Route::put('/admin/management/profile/reset/pass/{id}', [ProfileAkunController::class, 'resetPass'])->middleware('auth')->name('profile.reset');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/management/profile', [ProfileAkunController::class, 'index'])->name('profile.petugas');
+    Route::put('/admin/management/profile/update/{id}', [ProfileAkunController::class, 'update'])->name('profile.update');
+    Route::delete('/admin/management/profile/delete/{id}', [ProfileAkunController::class, 'destroy'])->name('profile.delete');
+    Route::put('/admin/management/profile/reset/pass/{id}', [ProfileAkunController::class, 'resetPass'])->name('profile.reset');
+});
 
 Route::middleware(['auth_admin'])->group(function () {
     Route::get('/admin/dashboard', [DashboardAdminController::class, 'index'])->name('dashboardadmin');
@@ -55,14 +58,22 @@ Route::middleware(['auth_admin'])->group(function () {
     Route::get('/admin/management/petugas/validasi', [ControllersValidasiPetugasController::class, 'index'])->name('validasipetugas');
     Route::put('/admin/management/petugas/aktivasi/{id}', [ControllersValidasiPetugasController::class, 'validasi']);
     Route::put('/admin/management/petugas/destroy/{id}', [ControllersValidasiPetugasController::class, 'destroy']);
+    Route::get('/admin/management/petugas/show/{id}', [ManagementPetugasController::class, 'show'])->name('users.show');
+    Route::put('/admin/management/petugas/toadmin/{id}', [ManagementPetugasController::class, 'toAdmin'])->name('users.toadmin');
 });
 
 Route::middleware(['auth_petugas'])->group(function () {
-        Route::get('/petugas/dashboard', [DashboardPetugasController::class, 'index'])->name('dashboardpetugas');
-        Route::get('/petugas/management/peminjam', [ManagementPeminjamController::class, 'index'])->name('managementpeminjam');
-        Route::get('/petugas/management/buku', [ManagementBukuController::class, 'index'])->name('managementbuku');
-        Route::get('/petugas/pinjaman/add', [AddPinjamanBukuController::class, 'index'])->name('addpinjaman');
-        Route::get('/petugas/pinjaman/history', [HistoryPeminjamanController::class, 'index'])->name('historypeminjam');
+    Route::get('/petugas/dashboard', [DashboardPetugasController::class, 'index'])->name('dashboardpetugas');
+    Route::get('/petugas/management/peminjam', [ManagementPeminjamController::class, 'index'])->name('managementpeminjam');
+    Route::get('/petugas/management/buku', [ManagementBukuController::class, 'index'])->name('managementbuku');
+    Route::get('/petugas/management/katogory', [ManagementKategory::class, 'index'])->name('managementkategory');
+    Route::get('/petugas/management/katogory/{id}', [ManagementKategory::class, 'show'])->name('kategory.show');
+    Route::get('/petugas/management/katogory/{id}', [ManagementKategory::class, 'show'])->name('kategory.show');
+    Route::post('/petugas/management/katogory', [ManagementKategory::class, 'store']);
+    Route::put('/petugas/management/update/katogory/{id}', [ManagementKategory::class, 'update']);
+    Route::delete('/petugas/management/delete/katogory/{id}', [ManagementKategory::class, 'destroy']);
+    Route::get('/petugas/pinjaman/add', [AddPinjamanBukuController::class, 'index'])->name('addpinjaman');
+    Route::get('/petugas/pinjaman/history', [HistoryPeminjamanController::class, 'index'])->name('historypeminjam');
 });
 
 Route::get('/auth/logout', [AuthController::class, 'logout'])

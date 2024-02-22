@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class ValidasiPetugasController extends Controller
 {
@@ -32,6 +33,9 @@ class ValidasiPetugasController extends Controller
     public function destroy($id)
     {
         $user = User::findOrFail($id);
+        $imagePath = $user->img;
+        $imagePath = 'profile/' . $imagePath;
+        Storage::delete($imagePath);
         $user->delete();
         if ($user == null) {
             return response()->json(['errors' => 'error'], 422);

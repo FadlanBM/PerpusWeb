@@ -40,19 +40,7 @@ class ProfileAkunController extends Controller
 
     public function destroy($id)
     {
-        // Validate the user ID
-        $validator = Validator::make(
-            ['id' => $id],
-            [
-                'id' => 'required|integer|exists:users,id',
-            ],
-        );
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 400);
-        }
-
-        try {
             $user = User::findOrFail($id);
 
             $imagePath = $user->img;
@@ -68,11 +56,7 @@ class ProfileAkunController extends Controller
             return response()->json([
                 'message' => 'SUCCESS',
             ]);
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return response()->json(['errors' => 'User not found'], 404);
-        } catch (\Exception $e) {
-            return response()->json(['errors' => $e->getMessage()], 500);
-        }
+        
     }
     public function resetPass(Request $request, $id)
     {

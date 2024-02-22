@@ -21,6 +21,20 @@ class ManagementPetugasController extends Controller
         //
     }
 
+    public function toAdmin($id)
+    {
+        $user = User::findOrFail($id);
+        $user->role = 'admin';
+        $user->save();
+        if ($user == null) {
+            return response()->json(['errors' => 'error'], 422);
+        }
+        return response()->json([
+            'data' => $user,
+           'message' => 'SUCCESS',
+        ]);
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -32,9 +46,11 @@ class ManagementPetugasController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+     public function show($id)
     {
-        //
+        $users = User::find($id);
+
+        return response()->json($users);
     }
 
     /**

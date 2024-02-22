@@ -30,6 +30,13 @@
                 <span class="text-sm">Buku</span>
             </a>
         </li>
+        <li class="{{ request()->is('petugas/management/katogory') ? 'active' : '' }} mb-1 group">
+            <a href="{{route('managementkategory')}}"
+                class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                <i class='bx bx-category mr-3 text-lg'></i>
+                <span class="text-sm">Kategory</span>
+            </a>
+        </li>
         <span class="text-gray-400 font-bold">Perpustakaan</span>
         <li class="{{ request()->is('petugas/pinjaman/add') ? 'active' : '' }} mb-1 group">
             <a href="{{route('addpinjaman')}}"

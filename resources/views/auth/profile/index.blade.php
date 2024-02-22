@@ -67,16 +67,6 @@
                     <!-- Profile Card -->
                     <div x-data="{ photoName: null, photoPreview: null }" class="col-span-6 ml-2 sm:col-span-4 md:mr-3">
                         <!-- Photo File Input -->
-                        <input type="file" class="hidden" x-ref="photo"
-                            x-on:change="
-                        photoName = $refs.photo.files[0].name;
-                        const reader = new FileReader();
-                        reader.onload = (e) => {
-                            photoPreview = e.target.result;
-                            console.log('asdasdsa');
-                        };
-                        reader.readAsDataURL($refs.photo.files[0]);
-    ">
                         <div class="bg-white p-3 border-t-4 border-green-400">
                             <div class="mt-2" x-show="! photoPreview">
                                 <img class="h-auto w-full mx-auto"
@@ -91,11 +81,6 @@
                             </div>
                             <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">{{ auth()->user()->name }}</h1>
                             <h3 class="text-gray-600 font-lg text-semibold leading-6">{{ strtoupper(auth()->user()->role) }}
-                                <button type="button"
-                                    class="items-end justify-end px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-400 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150 mt-2 ml-3"
-                                    x-on:click.prevent="$refs.photo.click()">
-                                    Select New Photo
-                                </button>
                             </h3>
                             <ul
                                 class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">

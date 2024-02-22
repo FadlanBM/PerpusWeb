@@ -56,7 +56,6 @@ class AuthController extends Controller
             $users = User::updateOrCreate(
                 ['email' => $email],
                 [
-                    'name' => $name,
                     'google_id' => $id,
                     'img' => $img_file,
                 ],
