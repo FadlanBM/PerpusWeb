@@ -43,7 +43,7 @@ class ManagementKategory extends Controller
         $kategory->nama_kategori = $request->nama_kategori;
         $kategory->save();
 
-        return redirect()->route('managementkategory')->with('success', 'Berhasil menambahkan data');
+        return redirect()->route('managementkategory')->with('success', 'Berhasil menambahkan kategory');
     }
 
     /**

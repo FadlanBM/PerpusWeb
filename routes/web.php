@@ -53,7 +53,6 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['auth_admin'])->group(function () {
     Route::get('/admin/dashboard', [DashboardAdminController::class, 'index'])->name('dashboardadmin');
-    Route::get('/admin/management/buku', [ManagementBukuAdminController::class, 'index'])->name('managementbukuadmin');
     Route::get('/admin/management/petugas', [ManagementPetugasController::class, 'index'])->name('managementpetugas');
     Route::get('/admin/management/petugas/validasi', [ControllersValidasiPetugasController::class, 'index'])->name('validasipetugas');
     Route::put('/admin/management/petugas/aktivasi/{id}', [ControllersValidasiPetugasController::class, 'validasi']);
@@ -66,6 +65,7 @@ Route::middleware(['auth_petugas'])->group(function () {
     Route::get('/petugas/dashboard', [DashboardPetugasController::class, 'index'])->name('dashboardpetugas');
     Route::get('/petugas/management/peminjam', [ManagementPeminjamController::class, 'index'])->name('managementpeminjam');
     Route::get('/petugas/management/buku', [ManagementBukuController::class, 'index'])->name('managementbuku');
+    Route::post('/petugas/management/buku', [ManagementBukuController::class, 'store']);
     Route::get('/petugas/management/katogory', [ManagementKategory::class, 'index'])->name('managementkategory');
     Route::get('/petugas/management/katogory/{id}', [ManagementKategory::class, 'show'])->name('kategory.show');
     Route::get('/petugas/management/katogory/{id}', [ManagementKategory::class, 'show'])->name('kategory.show');
@@ -74,6 +74,7 @@ Route::middleware(['auth_petugas'])->group(function () {
     Route::delete('/petugas/management/delete/katogory/{id}', [ManagementKategory::class, 'destroy']);
     Route::get('/petugas/pinjaman/add', [AddPinjamanBukuController::class, 'index'])->name('addpinjaman');
     Route::get('/petugas/pinjaman/history', [HistoryPeminjamanController::class, 'index'])->name('historypeminjam');
+    Route::get('/search/category', [ManagementBukuController::class,'search']);
 });
 
 Route::get('/auth/logout', [AuthController::class, 'logout'])
